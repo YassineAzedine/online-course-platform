@@ -43,4 +43,4 @@ jobs:
           git remote add render https://github.com/YassineAzedine/online-course-platform.git
           git push render main
         env:
-          RENDER_API_KEY: ${{ rnd_as1X1PwNjIUtKdfShtPhnaNWWOhW }}  # Set Render API key in GitHub secrets
+          RENDER_API_KEY: ${{ secrets.rnd_as1X1PwNjIUtKdfShtPhnaNWWOhW }}  # Set Render API key in GitHub secrets
