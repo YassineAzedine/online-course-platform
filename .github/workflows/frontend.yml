@@ -39,8 +39,8 @@ jobs:
 
       - name: Deploy to Vercel (example)
         env:
-          VERCEL_TOKEN: ${{ U9yz1bEBwMgOqymDsIfcXeLN }}  # Set token in GitHub secrets
+          VERCEL_TOKEN: ${{ secrets.U9yz1bEBwMgOqymDsIfcXeLN }}  # Set token in GitHub secrets
         run: |
           cd frontend
           npm i -g vercel
-          vercel --prod --token ${{ U9yz1bEBwMgOqymDsIfcXeLN }}
+          vercel --prod --token ${{ secrets.U9yz1bEBwMgOqymDsIfcXeLN }}
