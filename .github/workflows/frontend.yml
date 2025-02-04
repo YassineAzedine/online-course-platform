@@ -1,0 +1,46 @@
+name: Build and Deploy Frontend (Next.js)
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+    paths:
+      - 'frontend/**'  # Trigger only if there are changes in the frontend folder
+  pull_request:
+    branches:
+      - develop
+      - main
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Set the appropriate Node.js version
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Next.js app
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to Vercel (example)
+        env:
+          VERCEL_TOKEN: ${{ U9yz1bEBwMgOqymDsIfcXeLN }}  # Set token in GitHub secrets
+        run: |
+          cd frontend
+          npm i -g vercel
+          vercel --prod --token ${{ U9yz1bEBwMgOqymDsIfcXeLN }}
