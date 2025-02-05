@@ -1,0 +1,45 @@
+name: Deploy Backend & Frontend
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set API URL based on branch
+        run: |
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            echo "RENDER_SERVICE_ID=PRODUCTION_ID" >> $GITHUB_ENV
+          else
+            echo "RENDER_SERVICE_ID=STAGING_ID" >> $GITHUB_ENV
+          fi
+
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ env.RENDER_SERVICE_ID }}/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Accept: application/json"
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: |
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            vercel --prod --token=${{ secrets.VERCEL_API_TOKEN }}
+          else
+            vercel --token=${{ secrets.VERCEL_API_TOKEN }}
+          fi
