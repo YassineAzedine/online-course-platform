@@ -18,7 +18,11 @@ import { ProfileModule } from './profile/profile.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+
+    AuthModule, 
+
     AuthModule,
+
     UserModule,
     ProfileModule,
   ],
